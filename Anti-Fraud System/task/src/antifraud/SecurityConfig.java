@@ -5,12 +5,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+    public SecurityConfig(RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
+        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -20,7 +29,7 @@ public class SecurityConfig {
                 .exceptionHandling(handing -> handing
                         .authenticationEntryPoint(restAuthenticationEntryPoint) // Handles auth error
                 )
-                .headers(headers -> headers.frameOptions().disable())           // for Postman, the H2 console
+                .headers(AbstractHttpConfigurer::disable)           // for Postman, the H2 console
                 .authorizeHttpRequests(requests -> requests                     // manage access
                                 .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
                                 .requestMatchers("/actuator/shutdown").permitAll()      // needs to run test
@@ -31,5 +40,10 @@ public class SecurityConfig {
                 )
                 // other configurations
                 .build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

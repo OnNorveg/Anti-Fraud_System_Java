@@ -1,4 +1,4 @@
-package antifraud;
+package antifraud.entity;
 
 public class TransactionRequest {
 

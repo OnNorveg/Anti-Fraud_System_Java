@@ -1,5 +1,8 @@
-package antifraud;
+package antifraud.service;
 
+import antifraud.entity.AppUser;
+import antifraud.security.AppUserAdapter;
+import antifraud.repository.AppUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

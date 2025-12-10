@@ -1,4 +1,4 @@
-package antifraud;
+package antifraud.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

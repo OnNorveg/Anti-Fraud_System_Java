@@ -1,24 +1,33 @@
-package antifraud;
+package antifraud.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 public class AppUser {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
+    @NotEmpty(message = "Name may not be empty")
     private String name;
+    @NotEmpty(message = "Username may not be empty")
+    @Column(unique = true)
     private String username;
+    @NotEmpty(message = "Password may not be empty")
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     private String authority;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

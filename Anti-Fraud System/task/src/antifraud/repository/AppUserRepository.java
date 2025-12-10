@@ -1,5 +1,6 @@
-package antifraud;
+package antifraud.repository;
 
+import antifraud.entity.AppUser;
 import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 

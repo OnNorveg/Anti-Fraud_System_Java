@@ -1,5 +1,6 @@
-package antifraud;
+package antifraud.config;
 
+import antifraud.security.RestAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,7 +33,8 @@ public class SecurityConfig {
                 .headers(AbstractHttpConfigurer::disable)           // for Postman, the H2 console
                 .authorizeHttpRequests(requests -> requests                     // manage access
                                 .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
-                                .requestMatchers("/actuator/shutdown").permitAll()      // needs to run test
+                                .requestMatchers("/actuator/shutdown","/error/**").permitAll()      // needs to run test
+                                .requestMatchers(HttpMethod.GET, "/api/auth/list").hasRole("USER")
                         // other matchers
                 )
                 .sessionManagement(session -> session

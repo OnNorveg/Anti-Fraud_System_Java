@@ -43,5 +43,5 @@ public class AntiFraudController {
         return "New user successfully registered";
     }
 
-    record RegistrationRequest(String username, String password, String authority) { }
+    record RegistrationRequest(String name, String username, String password) { }
 }

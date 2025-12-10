@@ -34,9 +34,9 @@ public class AntiFraudController {
     @PostMapping(path = "/api/auth/user")
     public String register(@RequestBody RegistrationRequest request) {
         var user = new AppUser();
+        user.setName(request.name());
         user.setUsername(request.username());
         user.setPassword(passwordEncoder.encode(request.password()));
-        user.setAuthority(request.authority());
 
         repository.save(user);
 

@@ -5,8 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -14,13 +12,12 @@ public class AppUser {
     @Id
     @GeneratedValue
     private Long id;
-    @NotEmpty(message = "Name may not be empty")
-    @NotBlank(message = "Name may not be blank")
+    @NotNull(message = "Name may not be null")
     private String name;
-    @NotEmpty(message = "Username may not be empty")
+    @NotNull(message = "Username may not be null")
     @Column(unique = true)
     private String username;
-    @NotEmpty(message = "Password may not be empty")
+    @NotNull(message = "Password may not be null")
     @JsonIgnore
     private String password;
     @JsonIgnore

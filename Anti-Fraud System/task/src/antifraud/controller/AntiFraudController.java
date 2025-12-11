@@ -5,6 +5,8 @@ import antifraud.repository.AppUserRepository;
 import antifraud.entity.TransactionRequest;
 import antifraud.entity.TransactionResult;
 import antifraud.service.AppUserDetailsServiceImpl;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +39,7 @@ public class AntiFraudController {
     }
 
     @PostMapping(path = "/api/auth/user")
-    public ResponseEntity<AppUser> user(@RequestBody RegistrationRequest request) {
+    public ResponseEntity<AppUser> user(@Valid @RequestBody RegistrationRequest request) {
         return appUserDetailsService.user(request);
     }
 
@@ -51,5 +53,5 @@ public class AntiFraudController {
         return appUserDetailsService.delete(username);
     }
 
-    public record RegistrationRequest(String name, String username, String password) { }
+    public record RegistrationRequest(@NotEmpty String name, @NotEmpty String username, @NotEmpty String password) { }
 }

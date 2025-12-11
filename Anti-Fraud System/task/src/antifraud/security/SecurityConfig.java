@@ -1,8 +1,5 @@
-<<<<<<<< HEAD:Anti-Fraud System/task/src/antifraud/config/SecurityConfig.java
-package antifraud.config;
-========
+
 package antifraud.security;
->>>>>>>> 888b4ff (Step 2):Anti-Fraud System/task/src/antifraud/security/SecurityConfig.java
 
 import antifraud.security.RestAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
@@ -39,11 +36,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
                                 .requestMatchers("/actuator/shutdown","/error/**").permitAll()      // needs to run test
                                 .requestMatchers(HttpMethod.GET, "/api/auth/list").hasRole("USER")
-<<<<<<<< HEAD:Anti-Fraud System/task/src/antifraud/config/SecurityConfig.java
-========
+
                                 .requestMatchers(HttpMethod.DELETE,"/api/auth/user/*").hasRole("USER")
                                 .requestMatchers(HttpMethod.POST, "/api/antifraud/transaction").hasRole("USER")
->>>>>>>> 888b4ff (Step 2):Anti-Fraud System/task/src/antifraud/security/SecurityConfig.java
                         // other matchers
                 )
                 .sessionManagement(session -> session

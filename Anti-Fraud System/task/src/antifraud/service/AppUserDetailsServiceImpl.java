@@ -44,11 +44,11 @@ public class AppUserDetailsServiceImpl implements UserDetailsService {
             user.setUsername(request.username());
             user.setPassword(passwordEncoder.encode(request.password()));
             if(repository.count() == 0){
-                user.setAuthority("ROLE_ADMINISTRATOR");
-                user.setLocked(false);
+                user.setAuthority("ADMINISTRATOR");
+                user.setIsLocked(false);
             } else {
-                user.setAuthority("ROLE_MERCHANT");
-                user.setLocked(true);
+                user.setAuthority("MERCHANT");
+                user.setIsLocked(true);
             }
             repository.save(user);
             return new ResponseEntity<>(user,HttpStatus.CREATED);
@@ -76,9 +76,9 @@ public class AppUserDetailsServiceImpl implements UserDetailsService {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             } else {
                 if(request.operation().equals("LOCK")){
-                    user.setLocked(true);
+                    user.setIsLocked(true);
                 } else{
-                    user.setLocked(false);
+                    user.setIsLocked(false);
                 }
                 return new ResponseEntity<>(Map.of(
                         "status", "User " + request.username() + " "+ request.operation().toLowerCase() + "ed!"),

@@ -35,10 +35,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests                     // manage access
                                 .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
                                 .requestMatchers("/actuator/shutdown","/error/**").permitAll()      // needs to run test
-                                .requestMatchers(HttpMethod.GET, "/api/auth/list").hasRole("USER")
+                                .requestMatchers(HttpMethod.GET, "/api/auth/list").hasRole("MERCHANT")
+                                .requestMatchers(HttpMethod.POST, "/api/auth/role").hasRole("ADMINISTRATOR")
+                                .requestMatchers(HttpMethod.POST, "/api/auth/access").hasRole("ADMINISTRATOR")
 
-                                .requestMatchers(HttpMethod.DELETE,"/api/auth/user/*").hasRole("USER")
-                                .requestMatchers(HttpMethod.POST, "/api/antifraud/transaction").hasRole("USER")
+                                .requestMatchers(HttpMethod.DELETE,"/api/auth/user/*").hasRole("MERCHANT")
+                                .requestMatchers(HttpMethod.POST, "/api/antifraud/transaction").hasRole("MERCHANT")
                         // other matchers
                 )
                 .sessionManagement(session -> session

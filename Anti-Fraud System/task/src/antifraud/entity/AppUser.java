@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -20,8 +21,10 @@ public class AppUser {
     @NotNull(message = "Password may not be null")
     @JsonIgnore
     private String password;
+    @NotEmpty(message = "Role may not be empty")
+    private String role;
     @JsonIgnore
-    private String authority;
+    private boolean isLocked;
 
     public Long getId() {
         return id;
@@ -31,7 +34,7 @@ public class AppUser {
         this.id = id;
     }
 
-        public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -56,10 +59,18 @@ public class AppUser {
     }
 
     public String getAuthority() {
-        return authority;
+        return role;
     }
 
     public void setAuthority(String role) {
-        this.authority = role;
+        this.role = role;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
     }
 }

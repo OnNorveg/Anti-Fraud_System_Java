@@ -43,9 +43,49 @@ public class AppUserDetailsServiceImpl implements UserDetailsService {
             user.setName(request.name());
             user.setUsername(request.username());
             user.setPassword(passwordEncoder.encode(request.password()));
-            user.setAuthority("ROLE_USER");
+            if(repository.count() == 0){
+                user.setAuthority("ROLE_ADMINISTRATOR");
+                user.setLocked(false);
+            } else {
+                user.setAuthority("ROLE_MERCHANT");
+                user.setLocked(true);
+            }
             repository.save(user);
             return new ResponseEntity<>(user,HttpStatus.CREATED);
+        }
+    }
+
+    public ResponseEntity<AppUser> role(AntiFraudController.ChangeRoleRequest request){
+        if(repository.findAppUserByUsername(request.username().toLowerCase()).isPresent()) {
+            var user = repository.findAppUserByUsername(request.username().toLowerCase()).get();
+            if(user.getAuthority().equals(request.role())){
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            } else {
+                user.setAuthority(request.role());
+            }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity<?> access(AntiFraudController.ActivationRequest request){
+        if(repository.findAppUserByUsername(request.username().toLowerCase()).isPresent()){
+            var user = repository.findAppUserByUsername(request.username().toLowerCase()).get();
+            if (user.getAuthority().equals("ROLE_ADMINISTRATOR")) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } else {
+                if(request.operation().equals("LOCK")){
+                    user.setLocked(true);
+                } else{
+                    user.setLocked(false);
+                }
+                return new ResponseEntity<>(Map.of(
+                        "status", "User " + request.username() + " "+ request.operation().toLowerCase() + "ed!"),
+                        HttpStatus.OK);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 

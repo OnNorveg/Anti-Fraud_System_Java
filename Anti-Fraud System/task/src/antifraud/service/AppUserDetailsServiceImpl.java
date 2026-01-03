@@ -4,7 +4,6 @@ import antifraud.controller.AntiFraudController;
 import antifraud.entity.AppUser;
 import antifraud.security.AppUserAdapter;
 import antifraud.repository.AppUserRepository;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -75,11 +74,7 @@ public class AppUserDetailsServiceImpl implements UserDetailsService {
             if (user.getAuthority().equals("ROLE_ADMINISTRATOR")) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             } else {
-                if(request.operation().equals("LOCK")){
-                    user.setIsLocked(true);
-                } else{
-                    user.setIsLocked(false);
-                }
+                user.setIsLocked(request.operation().equals("LOCK"));
                 return new ResponseEntity<>(Map.of(
                         "status", "User " + request.username() + " "+ request.operation().toLowerCase() + "ed!"),
                         HttpStatus.OK);

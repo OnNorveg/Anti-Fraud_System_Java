@@ -41,6 +41,8 @@ public class SecurityConfig {
 
                                 .requestMatchers(HttpMethod.DELETE,"/api/auth/user/*").hasRole("ADMINISTRATOR")
                                 .requestMatchers(HttpMethod.POST, "/api/antifraud/transaction").hasRole("MERCHANT")
+                                .requestMatchers("/api/antifraud/suspicious-ip").hasRole("SUPPORT")
+                                .requestMatchers("/api/antifraud/stolencard").hasRole("SUPPORT")
                         // other matchers
                 )
                 .sessionManagement(session -> session
